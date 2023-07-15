@@ -15,12 +15,28 @@ import {
 	Grid,
 	Stack,
 	Flex,
+	Textarea,
+	Divider,
+	Button,
 } from '@mantine/core';
 import { IconBackspace, IconBackspaceFilled, IconBookmark, IconHeart, IconShare } from '@tabler/icons-react';
+import { reviews } from '../components/BookDetails/_mockData';
+import Review from '../components/BookDetails/Review';
+import IReview from '../types/review';
+import { hasLength, useForm } from '@mantine/form';
 const useStyles = createStyles((theme) => ({
 
 }));
 const BookDetails = () => {
+	const form = useForm({
+		initialValues: {
+			review: '',
+		},
+		validate: {
+			// email: isEmail('Invalid email'),
+			review: hasLength({ min: 1, max: 500 }, 'Invalid Review'),
+		},
+	});
 	// props: BookType
 	const demo = {
 		image:
@@ -66,18 +82,11 @@ const BookDetails = () => {
 						{title}
 					</Text>
 
-					<Text fz="sm" color="dimmed" >
+					<Text fz="xs"  >
 						{description}
 					</Text>
 				</Grid.Col>
 			</Grid>
-
-
-
-
-
-
-
 			<Group position="right" >
 				<Group spacing={8} mr={0} position='right'>
 					<ActionIcon >
@@ -92,6 +101,35 @@ const BookDetails = () => {
 
 				</Group>
 			</Group>
+
+			<Container size={'xs'} mb={20}>
+				<form onSubmit={form.onSubmit((values) => {
+					console.log('values: ', values);
+
+				})}>
+					<Grid align='end'>
+						<Grid.Col span={10}>
+
+							<Textarea
+								required {...form.getInputProps('review')}
+								placeholder="Your review"
+								label="Add Review"
+								withAsterisk
+							/>
+						</Grid.Col>
+						<Grid.Col span={2}>
+							<Button type='submit'>
+								Save
+							</Button>
+						</Grid.Col>
+					</Grid>
+					<Divider my={10} />
+					{
+						reviews.map((review: IReview) => <Review postedAt={review.postedAt} body={review.body} author={review.author} />)
+					}
+
+				</form>
+			</Container>
 		</Container>
 	);
 };
