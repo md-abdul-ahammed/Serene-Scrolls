@@ -75,7 +75,7 @@ export function SingleBook({
 				{title}
 			</Text>
 
-			<Text fz="sm" color="dimmed" lineClamp={3}>
+			<Text fz="sm" color="dimmed" lineClamp={2}>
 				{description}
 			</Text>
 

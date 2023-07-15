@@ -13,7 +13,6 @@ import {
 } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link } from "react-router-dom";
-import AuthLayout from '../layouts/AuthLayout';
 
 export default function Login() {
 	const form = useForm({

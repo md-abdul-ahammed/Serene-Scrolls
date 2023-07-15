@@ -17,7 +17,7 @@ export default function Filters() {
 			/>
 			<Group mt={20} >
 				<Text fz='xs'>Filter By Publication Year</Text>
-				<YearPicker mt={-10} size='xs' value={value} onChange={setValue} />
+				<YearPicker allowDeselect mt={-10} size='xs' value={value} onChange={setValue} />
 			</Group>
 		</Box>
 
