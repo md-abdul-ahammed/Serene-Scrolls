@@ -29,7 +29,7 @@ const Home = () => {
 							</Tooltip>
 						</Grid.Col>
 					</Grid>
-					<ScrollArea h={500} type="never" >
+					<ScrollArea h={{ md: 500, lg: 750 }} type="never" >
 						<BookLists />
 					</ScrollArea>
 				</Grid.Col>
