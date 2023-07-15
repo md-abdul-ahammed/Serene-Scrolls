@@ -1,10 +1,11 @@
 export interface BookType {
   image: string;
+  link: string;
   title: string;
-  country: string;
   description: string;
-  badges: {
-    emoji: string;
-    label: string;
-  }[];
+  rating: string;
+  author: {
+    name: string;
+    image: string;
+  };
 }

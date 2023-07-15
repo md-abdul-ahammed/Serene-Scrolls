@@ -5,6 +5,7 @@ import SignUp from '../pages/SignUp';
 import { NotFound } from '../pages/404';
 import AuthLayout from '../layouts/AuthLayout';
 import { MainLayout } from '../layouts/MainLayout';
+import BookDetails from '../pages/BookDetails';
 
 
 
@@ -17,10 +18,10 @@ const routes = createBrowserRouter([
 				index: true,
 				element: <App />,
 			},
-			//   {
-			//     path: '/products',
-			//     element: <Products />,
-			//   },
+			{
+				path: '/book/:id',
+				element: <BookDetails />,
+			},
 			//   {
 			//     path: '/product-details/:id',
 			//     element: <ProductDetails />,

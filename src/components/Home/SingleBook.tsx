@@ -1,12 +1,13 @@
-import { IconHeart } from '@tabler/icons-react';
+import { IconBookmark, IconHeart, IconShare } from '@tabler/icons-react';
 import {
 	Card,
 	Image,
 	Text,
-	Group,
-	Badge,
-	Button,
 	ActionIcon,
+	Badge,
+	Group,
+	Center,
+	Avatar,
 	createStyles,
 	rem,
 } from '@mantine/core';
@@ -14,79 +15,91 @@ import { BookType } from '../../types/book';
 
 const useStyles = createStyles((theme) => ({
 	card: {
+		position: 'relative',
 		backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
 	},
 
-	section: {
-		borderBottom: `${rem(1)} solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-			}`,
-		paddingLeft: theme.spacing.md,
-		paddingRight: theme.spacing.md,
-		paddingBottom: theme.spacing.md,
+	rating: {
+		position: 'absolute',
+		top: theme.spacing.xs,
+		right: rem(12),
+		pointerEvents: 'none',
 	},
 
-	like: {
-		color: theme.colors.red[6],
+	title: {
+		display: 'block',
+		marginTop: theme.spacing.md,
+		marginBottom: rem(5),
 	},
 
-	label: {
-		textTransform: 'uppercase',
-		fontSize: theme.fontSizes.xs,
-		fontWeight: 700,
+	action: {
+		// backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+		// ...theme.fn.hover({
+		// 	backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+		// }),
+	},
+
+	footer: {
+		marginTop: theme.spacing.md,
 	},
 }));
 
 
 
-
-export function SignleBook({ item }: { item: BookType }) {
-	const { classes, theme } = useStyles();
-	const { image, title, description, country, badges } = item;
-
-	const features = badges.map((badge) => (
-		<Badge
-			color={theme.colorScheme === 'dark' ? 'dark' : 'gray'}
-			key={badge.label}
-		// leftSection={badge.emoji}
-		>
-			{badge.label}
-		</Badge>
-	));
+export function SingleBook({
+	className,
+	image,
+	link,
+	title,
+	description,
+	author,
+	rating,
+	...others
+}: BookType & Omit<React.ComponentPropsWithoutRef<'div'>, keyof BookType>) {
+	const { classes, cx, theme } = useStyles();
+	const linkProps = { href: `book/${link}`, rel: 'noopener noreferrer' };
 
 	return (
-		<Card withBorder radius="md" p="md" className={classes.card}>
+		<Card withBorder radius="md" className={cx(classes.card, className)} {...others}>
 			<Card.Section>
-				<Image src={image} alt={title} height={180} />
+				<a {...linkProps}>
+					<Image src={image} height={180} />
+				</a>
 			</Card.Section>
 
-			<Card.Section className={classes.section} mt="md">
-				<Group position="apart">
-					<Text fz="lg" fw={500}>
-						{title}
+			<Badge className={classes.rating} variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
+				{rating}
+			</Badge>
+
+			<Text className={classes.title} fw={500} component="a" {...linkProps}>
+				{title}
+			</Text>
+
+			<Text fz="sm" color="dimmed" lineClamp={3}>
+				{description}
+			</Text>
+
+			<Group position="apart" className={classes.footer}>
+				<Center>
+					<Avatar size={24} radius="xl" color='cyan' mr="xs" >
+						{author.name.split(' ')[0].slice(0, 1) + author.name?.split(' ')[1]?.slice(0, 1)}
+					</Avatar>
+					<Text fz="sm" inline>
+						{author.name}
 					</Text>
-					<Badge size="sm">{country}</Badge>
-				</Group>
-				<Text fz="sm" mt="xs">
-					{description}
-				</Text>
-			</Card.Section>
+				</Center>
 
-			<Card.Section className={classes.section}>
-				<Text mt="md" className={classes.label} c="dimmed">
-					Genre
-				</Text>
-				<Group spacing={7} mt={5}>
-					{features}
+				<Group spacing={8} mr={0}>
+					<ActionIcon className={classes.action}>
+						<IconHeart size="1rem" color={theme.colors.red[6]} />
+					</ActionIcon>
+					<ActionIcon className={classes.action}>
+						<IconBookmark size="1rem" color={theme.colors.yellow[7]} />
+					</ActionIcon>
+					<ActionIcon className={classes.action}>
+						<IconShare size="1rem" />
+					</ActionIcon>
 				</Group>
-			</Card.Section>
-
-			<Group mt="xs">
-				<Button radius="md" color='cyan' style={{ flex: 1 }}>
-					Show details
-				</Button>
-				<ActionIcon variant="default" radius="md" size={36}>
-					<IconHeart size="1.1rem" className={classes.like} stroke={1.5} />
-				</ActionIcon>
 			</Group>
 		</Card>
 	);
