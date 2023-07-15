@@ -1,5 +1,4 @@
-import { Blockquote, Button, Container, Grid, Modal, ScrollArea, Tooltip } from '@mantine/core';
-import React from 'react';
+import { Button, Container, Grid, Modal, ScrollArea, Tooltip } from '@mantine/core';
 import { SearchArea } from '../components/Home/SearchArea';
 import Filters from '../components/Home/Filters';
 import BookLists from '../components/Home/BookLists';

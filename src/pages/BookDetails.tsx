@@ -1,5 +1,4 @@
-import React from 'react';
-import { BookType } from '../types/book';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	Card,
 	Image,
@@ -7,25 +6,24 @@ import {
 	ActionIcon,
 	Badge,
 	Group,
-	Center,
+
 	Avatar,
 	createStyles,
-	rem,
+
 	Container,
 	Grid,
-	Stack,
+
 	Flex,
 	Textarea,
 	Divider,
 	Button,
 } from '@mantine/core';
-import { IconBackspace, IconBackspaceFilled, IconBookmark, IconHeart, IconShare } from '@tabler/icons-react';
+import { IconBookmark, IconHeart } from '@tabler/icons-react';
 import { reviews } from '../components/BookDetails/_mockData';
 import Review from '../components/BookDetails/Review';
 import IReview from '../types/review';
 import { hasLength, useForm } from '@mantine/form';
-const useStyles = createStyles((theme) => ({
-
+const useStyles = createStyles(() => ({
 }));
 const BookDetails = () => {
 	const form = useForm({

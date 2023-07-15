@@ -1,4 +1,4 @@
-import { createStyles, Text, Avatar, Group, rem, Box, Card } from '@mantine/core';
+import { createStyles, Text, Avatar, Group, rem, Card } from '@mantine/core';
 import IReview from '../../types/review';
 
 const useStyles = createStyles((theme) => ({

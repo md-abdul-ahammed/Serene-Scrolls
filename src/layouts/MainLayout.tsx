@@ -7,7 +7,6 @@ import {
 	Group,
 	Text,
 	Menu,
-	Tabs,
 	Burger,
 	rem,
 } from '@mantine/core';
@@ -18,12 +17,11 @@ import {
 	IconStar,
 	IconMessage,
 	IconSettings,
-	IconPlayerPause,
 	IconTrash,
-	IconSwitchHorizontal,
+
 	IconChevronDown,
 } from '@tabler/icons-react';
-import { Link, useNavigate, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 // import { MantineLogo } from '@mantine/ds';
 import BrandLogo from '../atoms/BrandLogo';
 
@@ -117,16 +115,17 @@ const DemoData = {
 	tabs: ["Home", "Horror", "Mystery"]
 }
 export function MainLayout() {
-	const { user, tabs }: HeaderTabsProps = DemoData;
+	const { user }: HeaderTabsProps = DemoData;
 	const { classes, theme, cx } = useStyles();
 	const [opened, { toggle }] = useDisclosure(false);
 	const [userMenuOpened, setUserMenuOpened] = useState(false);
 
-	const items = tabs.map((tab) => (
-		<Tabs.Tab value={tab} key={tab}>
-			{tab}
-		</Tabs.Tab>
-	));
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	// const items = tabs.map((tab) => (
+	// 	<Tabs.Tab value={tab} key={tab}>
+	// 		{tab}
+	// 	</Tabs.Tab>
+	// ));
 
 	return (
 		<>

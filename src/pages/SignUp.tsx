@@ -1,15 +1,12 @@
 import {
 	TextInput,
 	PasswordInput,
-	Checkbox,
 	Anchor,
 	Paper,
 	Title,
 	Text,
 	Container,
-	Group,
 	Button,
-	NavLink,
 } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link } from "react-router-dom";

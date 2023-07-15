@@ -1,4 +1,4 @@
-import { Children, ReactElement, useState } from 'react';
+import { useState } from 'react';
 import { createStyles, Header, Group, ActionIcon, Container, Burger, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
@@ -77,6 +77,7 @@ const links: ILink[] = [{
 export default function AuthLayout() {
 	const [opened, { toggle }] = useDisclosure(false);
 	const [active, setActive] = useState(links[0].link);
+	console.log('setActive: ', setActive);
 	const { classes, cx } = useStyles();
 	const navigate = useNavigate()
 

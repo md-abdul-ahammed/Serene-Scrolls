@@ -1,5 +1,5 @@
 import { Loader } from '@mantine/core';
 
-export default function Loader() {
+export default function BoiLoader() {
 	return <Loader size="lg" />;
 }
