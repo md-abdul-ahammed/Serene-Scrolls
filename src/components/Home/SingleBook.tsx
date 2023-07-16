@@ -1,9 +1,6 @@
-import { IconBookmark, IconHeart, IconShare } from '@tabler/icons-react';
 import {
 	Card,
-	Image,
 	Text,
-	ActionIcon,
 	Badge,
 	Group,
 	Center,
@@ -51,8 +48,8 @@ const useStyles = createStyles((theme) => ({
 
 
 export function SingleBook({ book }: { book: BookType }) {
-	const { classes, cx, theme } = useStyles();
-	const { title, author, publication, createdAt, id, genre } = book;
+	const { classes, cx } = useStyles();
+	const { title, author, publication, id, genre } = book;
 
 
 	return (

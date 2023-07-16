@@ -1,5 +1,5 @@
-import { TextInput, TextInputProps, ActionIcon, useMantineTheme, Loader } from '@mantine/core';
-import { IconSearch, IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
+import { TextInput, TextInputProps } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
 
 export function SearchArea(props: TextInputProps) {
 

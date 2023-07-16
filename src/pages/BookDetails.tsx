@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
@@ -19,7 +20,7 @@ import {
 	Dialog,
 	Modal,
 } from '@mantine/core';
-import { IconBookFilled, IconBookmark, IconEdit, IconHeart, IconHeartFilled, IconTrashX } from '@tabler/icons-react';
+import { IconBookFilled, IconBookmark, IconEdit, IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import Review from '../components/BookDetails/Review';
 import IReview from '../types/review';
 import { hasLength, useForm } from '@mantine/form';
@@ -62,7 +63,7 @@ const BookDetails = () => {
 
 	const handleDeleteBook = async (): Promise<void> => {
 		const res: any = await deleteBook(bookId as string);
-		console.log('res: ', res);
+		// console.log('res: ', res);
 		notifications.show({
 			id: 'success-login',
 			withCloseButton: true,

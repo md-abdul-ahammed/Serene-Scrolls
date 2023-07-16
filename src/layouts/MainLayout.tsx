@@ -18,7 +18,6 @@ import {
 	IconStar,
 	IconMessage,
 	IconSettings,
-	IconTrash,
 
 	IconChevronDown,
 } from '@tabler/icons-react';

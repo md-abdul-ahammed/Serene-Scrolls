@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import {
-  BaseQueryApi,
-  createApi,
-  fetchBaseQuery,
-} from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggedOut } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://goodreaders-api.vercel.app/api/v1",
-  prepareHeaders: (headers, { getState }: Pick<BaseQueryApi, "getState">) => {
-    console.log("getState: ===>>", getState());
+  prepareHeaders: (headers, { getState }: any) => {
     const token = getState()?.auth?.accessToken;
     if (token) {
       headers.set("Authorization", `${token}`);

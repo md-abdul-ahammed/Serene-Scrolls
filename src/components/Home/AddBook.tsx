@@ -45,9 +45,9 @@ const AddBook = () => {
 
 
 				<Paper withBorder shadow="md" p={10} mt={10} radius="md" sx={{ width: '100%' }}>
-					<form onSubmit={form.onSubmit(async (values): void => {
+					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
 
-						const res = await addBook({
+						const res: any = await addBook({
 							...values, publication: formateDate(values?.publication),
 							addedBy: user?.id,
 						} as BookType);

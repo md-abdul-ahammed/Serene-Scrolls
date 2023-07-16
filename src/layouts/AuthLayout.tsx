@@ -76,8 +76,9 @@ const links: ILink[] = [{
 
 export default function AuthLayout() {
 	const [opened, { toggle }] = useDisclosure(false);
-	const [active, setActive] = useState(links[0].link);
-	console.log('setActive: ', setActive);
+	const [active] = useState(links[0].link);
+
+	// console.log('setActive: ', setActive);
 	const { classes, cx } = useStyles();
 	const navigate = useNavigate()
 

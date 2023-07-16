@@ -50,8 +50,8 @@ export default function Login() {
 			</Text>
 
 			<Paper withBorder shadow="md" p={30} mt={30} radius="md">
-				<form onSubmit={form.onSubmit(async (values: ILoginBody): void => {
-					const res = await login(values);
+				<form onSubmit={form.onSubmit(async (values: ILoginBody): Promise<void> => {
+					const res: any = await login(values);
 					notifications.show({
 						id: 'success-login',
 						withCloseButton: true,

@@ -45,10 +45,8 @@ const EditBook = ({ book, close }: { book: BookType, close: any }) => {
 
 
 				<Paper withBorder shadow="md" p={10} mt={10} radius="md" sx={{ width: '100%' }}>
-					<form onSubmit={form.onSubmit(async (values): void => {
-
-
-						const res = await editBook({
+					<form onSubmit={form.onSubmit(async (values): Promise<void> => {
+						const res: any = await editBook({
 							data: { ...values, publication: formateDate(values.publication) } as BookType, id: book?.id as string
 						});
 
@@ -71,7 +69,7 @@ const EditBook = ({ book, close }: { book: BookType, close: any }) => {
 
 						res?.data?.statusCode === 200 && close();
 
-
+						return Promise.resolve();
 					})}>
 
 						<Text align='center'>EDIT BOOK</Text>

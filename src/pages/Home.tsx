@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Modal, ScrollArea, Text, Tooltip } from '@mantine/core';
+import { Button, Container, Grid, Modal, ScrollArea, Text } from '@mantine/core';
 
 import BookLists from '../components/Home/BookLists';
 import { useDisclosure } from '@mantine/hooks';

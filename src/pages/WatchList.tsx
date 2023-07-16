@@ -1,13 +1,10 @@
-import { Button, Container, Grid, Modal, ScrollArea, Text, Tooltip } from '@mantine/core';
-import { SearchArea } from '../components/Home/SearchArea';
-import Filters from '../components/Home/Filters';
+import { Button, Container, Grid, Modal, ScrollArea, Text } from '@mantine/core';
 import BookLists from '../components/Home/BookLists';
 import { useDisclosure } from '@mantine/hooks';
 import AddBook from '../components/Home/AddBook';
 import { createStyles, Title, rem } from '@mantine/core';
 import { Dots } from '../atoms/Dots';
 import { useNavigate } from 'react-router-dom';
-import { useFeaturedBookQuery } from '../redux/features/books/bookApi';
 import { useGetWishlistQuery } from '../redux/features/personalList/listApi';
 
 const WatchList = () => {

@@ -1,11 +1,11 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { Box, NativeSelect, Text } from '@mantine/core';
-import { useState } from 'react';
+
 import { Group } from '@mantine/core';
 import { YearPicker } from '@mantine/dates';
-import { useToggle } from '@mantine/hooks';
 import { useGenreListQuery } from '../../redux/features/books/bookApi';
 
-export default function Filters({ yearValue, setYearValue, setGenreValue }) {
+export default function Filters({ yearValue, setYearValue, setGenreValue }: any) {
 
 	const { data, isLoading } = useGenreListQuery({})
 

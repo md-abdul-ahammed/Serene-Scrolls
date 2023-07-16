@@ -44,8 +44,8 @@ export default function SignUp() {
 						Login
 					</Anchor></Link>
 			</Text>
-			<form onSubmit={form.onSubmit(async (values): void => {
-				const res = await register(values);
+			<form onSubmit={form.onSubmit(async (values): Promise<void> => {
+				const res: any = await register(values);
 				notifications.show({
 					id: 'success-login',
 					withCloseButton: true,
