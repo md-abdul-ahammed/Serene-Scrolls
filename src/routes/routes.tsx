@@ -1,11 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '../App';
 import Login from '../pages/Login';
 import SignUp from '../pages/SignUp';
 import { NotFound } from '../pages/404';
 import AuthLayout from '../layouts/AuthLayout';
 import { MainLayout } from '../layouts/MainLayout';
 import BookDetails from '../pages/BookDetails';
+import Home from '../pages/Home';
+import AuthRoute from './AuthRoute';
+import AllBooks from '../pages/AllBooks';
 
 
 
@@ -16,16 +18,16 @@ const routes = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <App />,
+				element: <Home />,
 			},
 			{
 				path: '/book/:id',
 				element: <BookDetails />,
 			},
-			//   {
-			//     path: '/product-details/:id',
-			//     element: <ProductDetails />,
-			//   },
+			{
+				path: '/all',
+				element: <AllBooks />,
+			},
 			//   {
 			//     path: '/checkout',
 			//     element: <Checkout />,
@@ -38,15 +40,21 @@ const routes = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <Login />,
+				element: <AuthRoute>
+					<Login />
+				</AuthRoute>,
 			},
 			{
 				path: 'login',
-				element: <Login />,
+				element: <AuthRoute>
+					<Login />
+				</AuthRoute>,
 			},
 			{
 				path: 'signup',
-				element: <SignUp />,
+				element: <AuthRoute>
+					<SignUp />
+				</AuthRoute>,
 			},
 		],
 	},
