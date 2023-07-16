@@ -8,11 +8,11 @@ const listApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [],
+      invalidatesTags: ["list"],
     }),
     getWishlist: builder.query({
       query: () => `/wishlist`,
-      providesTags: [],
+      providesTags: ["list"],
     }),
     addReadingList: builder.mutation({
       query: (data) => ({
@@ -20,23 +20,25 @@ const listApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [],
+      invalidatesTags: ["list"],
     }),
     getReadingList: builder.query({
       query: () => `/reading`,
-      providesTags: [],
+      providesTags: ["list"],
     }),
     deleteReading: builder.mutation({
       query: (id: string) => ({
         url: `/reading/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["list"],
     }),
     deleteWishlist: builder.mutation({
       query: (id: string) => ({
         url: `/wishlist/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["list"],
     }),
   }),
 });

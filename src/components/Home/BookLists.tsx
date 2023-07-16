@@ -1,18 +1,17 @@
-import { Grid } from '@mantine/core';
+import { Grid, Text } from '@mantine/core';
 import { SingleBook } from './SingleBook';
 import { BookType } from '../../types/book';
-import { Books } from './_staticData';
+import BoiLoader from '../../atoms/Loader';
 
-const BookLists = () => {
+const BookLists = ({ type, books, isLoading }: { type: string, books: BookType[], isLoading: boolean }) => {
+
 	return (
-		<Grid>
+		<Grid justify='center'>
 			{
-				Books.map((book: BookType) => <Grid.Col span={4}>
-					<SingleBook description={book.description} image={book.image} author={book.author} rating={book.rating} link={book.link} title={book.title} />
-				</Grid.Col>)
+				isLoading ? <BoiLoader /> : books.length > 0 ? books.map((book: BookType) => <Grid.Col span={type == 'all' ? 4 : 3}>
+					<SingleBook book={book} />
+				</Grid.Col>) : <Text>No Books Found!</Text>
 			}
-
-
 		</Grid>
 	);
 };

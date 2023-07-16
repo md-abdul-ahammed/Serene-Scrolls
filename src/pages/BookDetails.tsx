@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	Card,
@@ -6,21 +7,17 @@ import {
 	ActionIcon,
 	Badge,
 	Group,
-
 	Avatar,
 	createStyles,
-
 	Container,
 	Grid,
-
 	Flex,
 	Textarea,
 	Divider,
 	Button,
 	Tooltip,
 } from '@mantine/core';
-import { IconBookmark, IconHeart } from '@tabler/icons-react';
-import { reviews } from '../components/BookDetails/_mockData';
+import { IconBookFilled, IconBookmark, IconHeart, IconHeartFilled } from '@tabler/icons-react';
 import Review from '../components/BookDetails/Review';
 import IReview from '../types/review';
 import { hasLength, useForm } from '@mantine/form';
@@ -30,16 +27,46 @@ import { BookType } from '../types/book';
 import { useAppSelector } from '../redux/hook';
 import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
+import { useAddReadingListMutation, useAddWishListMutation, useDeleteReadingMutation, useDeleteWishlistMutation, useGetReadingListQuery, useGetWishlistQuery } from '../redux/features/personalList/listApi';
+import { useEffect, useState } from 'react';
+
+
+
 const useStyles = createStyles(() => ({
 }));
+
+
 const BookDetails = () => {
 	const { id: bookId } = useParams();
 	const { data } = useSingleBookQuery(bookId as string);
+	const [isWish, setIsWish] = useState<any>(null);
+	const [isReading, setIsReading] = useState<any>(null);
+
 	const { data: allreviews } = useGetReviewsQuery(bookId as string);
 	const { user } = useAppSelector(state => state.auth)
 	const [addReview, { isLoading }] = useAddReviewMutation();
+	const [addWishlist] = useAddWishListMutation();
+	const [addReadingList] = useAddReadingListMutation();
+	const [deleteWishlist] = useDeleteWishlistMutation();
+	const [deleteReading] = useDeleteReadingMutation();
 
+	const { data: allWishlist } = useGetWishlistQuery({});
+	const { data: allReadinglist } = useGetReadingListQuery({});
 
+	useEffect(() => {
+
+		const isWishListed = allWishlist?.data.find(item => item.bookId.id === bookId)
+		const isReadingListed = allReadinglist?.data.find(item => item.bookId.id === bookId)
+
+		if (isWishListed) {
+			console.log('isWishListed: ', isWishListed);
+			setIsWish(isWishListed)
+		}
+		if (isReadingListed) {
+			console.log('isReadingListed: ', isReadingListed);
+			setIsReading(isReadingListed)
+		}
+	}, [allWishlist, allReadinglist])
 	const form = useForm({
 		initialValues: {
 			review: '',
@@ -98,16 +125,38 @@ const BookDetails = () => {
 			<Group position="right" >
 				<Group spacing={8} mr={0} position='right'>
 
-					<ActionIcon >
-						<Tooltip label="Add to wishlist">
+					<ActionIcon onClick={async (): Promise<void> => {
+						if (!isWish) {
+							const res = await addWishlist({ bookId, userId: user?.id });
 
-							<IconHeart size="1rem" color={theme.colors.red[6]} />
+							res?.data.statusCode === 200 && setIsWish(res?.data?.data)
+						} else {
+							const res = await deleteWishlist(isWish.id as string);
+							res?.data.statusCode === 200 && setIsWish(null)
+						}
+						return Promise.resolve(); // Return a resolved Promise with void
+					}}
+
+					>
+						<Tooltip label={isWish ? "Remove from wishlist" : "Add to wishlist"}>
+
+							{isWish ? <IconHeartFilled size="1rem" color={'red'} /> : <IconHeart size="1rem" color={theme.colors.red[6]} />}
 						</Tooltip>
 					</ActionIcon>
-					<ActionIcon >
-						<Tooltip label="Add to currently reading">
+					<ActionIcon onClick={async (): Promise<void> => {
+						if (!isReading) {
+							const res: any = await addReadingList({ bookId, userId: user?.id });
 
-							<IconBookmark size="1rem" color={theme.colors.yellow[7]} />
+							res?.data.statusCode === 200 && setIsReading(res?.data?.data)
+						} else {
+							const res: any = await deleteReading(isReading.id as string);
+							res?.data.statusCode === 200 && setIsReading(null)
+						}
+						return Promise.resolve(); // Return a resolved Promise with void
+					}}>
+						<Tooltip label={isReading ? "Remove from currently reading" : "Add to currently reading"}>
+
+							{isReading ? <IconBookFilled size="1rem" color={theme.colors.yellow[6]} /> : <IconBookmark size="1rem" color={theme.colors.yellow[7]} />}
 						</Tooltip>
 					</ActionIcon>
 
