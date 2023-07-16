@@ -109,7 +109,7 @@ const BookDetails = () => {
 	});
 	// props: BookType
 
-	const { genre, title, author, publication, createdAt, id, addedBy }: BookType = data?.data || {};
+	const { genre, title, author, publication, addedBy }: BookType = data?.data || {};
 	const { theme } = useStyles();
 	return (
 		<Container size={'md'}>
@@ -158,11 +158,11 @@ const BookDetails = () => {
 
 					<ActionIcon onClick={async (): Promise<void> => {
 						if (!isWish) {
-							const res = await addWishlist({ bookId, userId: user?.id });
+							const res: any = await addWishlist({ bookId, userId: user?.id });
 
 							res?.data.statusCode === 200 && setIsWish(res?.data?.data)
 						} else {
-							const res = await deleteWishlist(isWish.id as string);
+							const res: any = await deleteWishlist(isWish.id as string);
 							res?.data.statusCode === 200 && setIsWish(null)
 						}
 						return Promise.resolve(); // Return a resolved Promise with void
@@ -225,7 +225,7 @@ const BookDetails = () => {
 						reviewerId: user?.id
 					}
 
-					const res = await addReview(formData as {
+					const res: any = await addReview(formData as {
 						review: string;
 						bookId: string;
 						reviewerId: string;
@@ -271,7 +271,7 @@ const BookDetails = () => {
 						<Divider my={10} />
 					</Grid>}
 					{
-						allreviews?.data?.map((review: IReview) => <Review createdAt={review.createdAt} review={review.review} author={review.reviewerId.fullName} />)
+						allreviews?.data?.map((review: IReview) => <Review key={review.id} createdAt={review.createdAt} review={review.review} author={review.reviewerId.fullName} />)
 					}
 
 				</form>

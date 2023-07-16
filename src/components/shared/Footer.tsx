@@ -38,7 +38,7 @@ const useStyles = createStyles((theme) => ({
 export default function Footer() {
 	const { classes } = useStyles();
 	const items = links.map((link) => (
-		<Link to={link.link}><Anchor<'div'>
+		<Link to={link.link} key={link.label}><Anchor<'div'>
 			color="dimmed"
 			key={link.label}
 			sx={{ lineHeight: 1 }}

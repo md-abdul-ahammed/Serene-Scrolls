@@ -5,7 +5,7 @@ export interface BookType {
   author: string;
   genre: string;
   publication: string;
-  addedBy: string | IAuth;
+  addedBy: string | IAuth | any;
   id?: string;
   createdAt?: string;
   updatedAt?: string;

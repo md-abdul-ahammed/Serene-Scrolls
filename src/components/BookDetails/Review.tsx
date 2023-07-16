@@ -1,5 +1,5 @@
 import { createStyles, Text, Avatar, Group, rem, Card } from '@mantine/core';
-import IReview from '../../types/review';
+
 import { formateDate } from '../../helpers/dates';
 
 const useStyles = createStyles((theme) => ({
