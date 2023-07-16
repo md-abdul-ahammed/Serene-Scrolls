@@ -9,6 +9,7 @@ import {
 	Menu,
 	Burger,
 	rem,
+	Button,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -21,9 +22,12 @@ import {
 
 	IconChevronDown,
 } from '@tabler/icons-react';
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 // import { MantineLogo } from '@mantine/ds';
 import BrandLogo from '../atoms/BrandLogo';
+import Footer from '../components/shared/Footer';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import { userLoggedOut } from '../redux/features/auth/authSlice';
 
 const useStyles = createStyles((theme) => ({
 	header: {
@@ -102,30 +106,23 @@ const useStyles = createStyles((theme) => ({
 	},
 }));
 
-interface HeaderTabsProps {
-	user: { name: string; image: string };
-	tabs: string[];
-}
-
-const DemoData = {
-	user: {
-		name: "Ridwan Alam",
-		image: "none"
-	},
-	tabs: ["Home", "Horror", "Mystery"]
-}
 export function MainLayout() {
-	const { user }: HeaderTabsProps = DemoData;
+	const { user } = useAppSelector(state => state.auth);
 	const { classes, theme, cx } = useStyles();
 	const [opened, { toggle }] = useDisclosure(false);
 	const [userMenuOpened, setUserMenuOpened] = useState(false);
-
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch()
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	// const items = tabs.map((tab) => (
 	// 	<Tabs.Tab value={tab} key={tab}>
 	// 		{tab}
 	// 	</Tabs.Tab>
 	// ));
+	const logout = () => {
+		dispatch(userLoggedOut());
+		localStorage.clear();
+	};
 
 	return (
 		<>
@@ -142,7 +139,7 @@ export function MainLayout() {
 						// color={theme.white}
 						/>
 
-						<Menu
+						{user?.fullName ? <Menu
 							width={260}
 							position="bottom-end"
 							transitionProps={{ transition: 'pop-top-right' }}
@@ -155,9 +152,9 @@ export function MainLayout() {
 									className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
 								>
 									<Group spacing={7}>
-										<Avatar src={user.image} alt={user.name} radius="xl" size={20} />
+										<Avatar radius="xl" size={20} />
 										<Text weight={500} size="sm" sx={{ lineHeight: 1, color: theme.white }} mr={3}>
-											{user.name}
+											{user?.fullName}
 										</Text>
 										<IconChevronDown size={rem(12)} stroke={1.5} />
 									</Group>
@@ -165,39 +162,36 @@ export function MainLayout() {
 							</Menu.Target>
 							<Menu.Dropdown>
 								<Menu.Item
+									onClick={() => navigate('/watchlist')}
 									icon={<IconHeart size="0.9rem" stroke={1.5} color={theme.colors.red[6]} />}
 								>
 									Watch List
 								</Menu.Item>
 								<Menu.Item
+
+									onClick={() => navigate('/reading')}
 									icon={<IconStar size="0.9rem" stroke={1.5} color={theme.colors.yellow[6]} />}
 								>
 									Currently Reading
 								</Menu.Item>
 								<Menu.Item
+									disabled
 									icon={<IconMessage size="0.9rem" stroke={1.5} color={theme.colors.blue[6]} />}
 								>
 									Your Reviews
 								</Menu.Item>
 
 								<Menu.Label>Settings</Menu.Label>
-								<Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
+								<Menu.Item onClick={logout} icon={<IconLogout size="0.9rem" stroke={1.5} />}>Logout</Menu.Item>
+
+								<Menu.Item disabled icon={<IconSettings size="0.9rem" stroke={1.5} />}>
 									Account settings
 								</Menu.Item>
 
-								<Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Logout</Menu.Item>
 
 								<Menu.Divider />
-
-								<Menu.Label>Danger zone</Menu.Label>
-								{/* <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
-									Pause subscription
-								</Menu.Item> */}
-								<Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
-									Delete account
-								</Menu.Item>
 							</Menu.Dropdown>
-						</Menu>
+						</Menu> : <Button onClick={() => navigate('/auth/login')}>Login</Button>}
 					</Group>
 				</Container>
 				{/* <Container>
@@ -216,6 +210,8 @@ export function MainLayout() {
 			</div>
 
 			<Outlet />
+
+			<Footer />
 		</>
 
 	);

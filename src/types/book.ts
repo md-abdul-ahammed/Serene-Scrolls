@@ -1,11 +1,12 @@
+import { IAuth } from "./user";
+
 export interface BookType {
-  image: string;
-  link: string;
   title: string;
-  description: string;
-  rating: string;
-  author: {
-    name: string;
-    image: string;
-  };
+  author: string;
+  genre: string;
+  publication: string;
+  addedBy: string | IAuth;
+  id?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

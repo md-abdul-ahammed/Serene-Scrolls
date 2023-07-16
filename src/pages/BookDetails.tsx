@@ -153,7 +153,7 @@ const BookDetails = () => {
 					</Text>
 				</Grid.Col>
 			</Grid>
-			<Group position="right" >
+			{user?.fullName && <Group position="right" >
 				<Group spacing={8} mr={0} position='right'>
 
 					<ActionIcon onClick={async (): Promise<void> => {
@@ -214,7 +214,7 @@ const BookDetails = () => {
 					}
 
 				</Group>
-			</Group>
+			</Group>}
 
 			<Container size={'xs'} mb={20}>
 				<form onSubmit={form.onSubmit(async (values): Promise<void> => {
@@ -252,7 +252,7 @@ const BookDetails = () => {
 
 
 				})}>
-					<Grid align='end'>
+					{user?.fullName && <Grid align='end'>
 						<Grid.Col span={10}>
 
 							<Textarea
@@ -267,8 +267,9 @@ const BookDetails = () => {
 								Save
 							</Button>
 						</Grid.Col>
-					</Grid>
-					<Divider my={10} />
+
+						<Divider my={10} />
+					</Grid>}
 					{
 						allreviews?.data?.map((review: IReview) => <Review createdAt={review.createdAt} review={review.review} author={review.reviewerId.fullName} />)
 					}

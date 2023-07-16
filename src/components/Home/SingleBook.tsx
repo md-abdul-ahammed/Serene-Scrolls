@@ -79,7 +79,7 @@ export function SingleBook({ book }: { book: BookType }) {
 			<Group className={classes.footer}>
 				<Center>
 					<Avatar size={24} radius="xl" color='cyan' mr="xs" >
-						{author.split(' ')[0].slice(0, 1) + author?.split(' ')[1]?.slice(0, 1)}
+						{author?.split(' ')[0].slice(0, 1) + author?.split(' ')[1]?.slice(0, 1)}
 					</Avatar>
 					<Text fz="sm" inline>
 						{author}

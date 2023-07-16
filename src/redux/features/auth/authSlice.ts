@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IAuth } from "../../../types/user";
 
-const initialState = {
+const initialState: IAuth = {
   accessToken: undefined,
   user: undefined,
 };

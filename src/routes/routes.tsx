@@ -8,6 +8,9 @@ import BookDetails from '../pages/BookDetails';
 import Home from '../pages/Home';
 import AuthRoute from './AuthRoute';
 import AllBooks from '../pages/AllBooks';
+import WatchList from '../pages/WatchList';
+import ReadingList from '../pages/ReadingList';
+import PrivateRoute from './PrivateRoute';
 
 
 
@@ -19,6 +22,18 @@ const routes = createBrowserRouter([
 			{
 				index: true,
 				element: <Home />,
+			},
+			{
+				path: '/watchlist',
+				element: <PrivateRoute>
+					<WatchList />
+				</PrivateRoute>,
+			},
+			{
+				path: '/reading',
+				element: <PrivateRoute>
+					<ReadingList />
+				</PrivateRoute>,
 			},
 			{
 				path: '/book/:id',
