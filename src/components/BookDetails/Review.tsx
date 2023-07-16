@@ -1,5 +1,6 @@
 import { createStyles, Text, Avatar, Group, rem, Card } from '@mantine/core';
 import IReview from '../../types/review';
+import { formateDate } from '../../helpers/dates';
 
 const useStyles = createStyles((theme) => ({
 	body: {
@@ -11,21 +12,23 @@ const useStyles = createStyles((theme) => ({
 
 
 
-const Review = ({ postedAt, body, author }: IReview) => {
+const Review = ({ createdAt, review, author }: any) => {
 	const { classes } = useStyles();
 	return (
 		<Card shadow="xs" my={10}>
 			<Group mb={-10}>
-				<Avatar src={author.image} alt={author.name} radius="xl" />
+				<Avatar radius="xl" >
+					{author?.slice(0, 2)}
+				</Avatar>
 				<div>
-					<Text size="xs" >{author.name}</Text>
+					<Text size="xs" >{author}</Text>
 					<Text size="xs" >
-						{postedAt}
+						{formateDate(createdAt as string)}
 					</Text>
 				</div>
 			</Group>
 			<Text className={classes.body} color="dimmed" size="xs">
-				{body}
+				{review}
 			</Text>
 		</Card>
 	);

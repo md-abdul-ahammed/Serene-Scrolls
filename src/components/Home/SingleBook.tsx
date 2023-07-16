@@ -10,8 +10,10 @@ import {
 	Avatar,
 	createStyles,
 	rem,
+	Box,
 } from '@mantine/core';
 import { BookType } from '../../types/book';
+import { Link } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
 	card: {
@@ -30,6 +32,8 @@ const useStyles = createStyles((theme) => ({
 		display: 'block',
 		marginTop: theme.spacing.md,
 		marginBottom: rem(5),
+		color: "white",
+		// textDecoration: '0',
 	},
 
 	action: {
@@ -40,67 +44,62 @@ const useStyles = createStyles((theme) => ({
 	},
 
 	footer: {
-		marginTop: theme.spacing.md,
+		marginTop: theme.spacing.xs,
 	},
 }));
 
 
 
-export function SingleBook({
-	className,
-	image,
-	link,
-	title,
-	description,
-	author,
-	rating,
-	...others
-}: BookType & Omit<React.ComponentPropsWithoutRef<'div'>, keyof BookType>) {
+export function SingleBook({ book }: { book: BookType }) {
 	const { classes, cx, theme } = useStyles();
-	const linkProps = { href: `book/${link}`, rel: 'noopener noreferrer' };
+	const { title, author, publication, createdAt, id, genre } = book;
+
 
 	return (
-		<Card withBorder radius="md" className={cx(classes.card, className)} {...others}>
-			<Card.Section>
-				<a {...linkProps}>
-					<Image src={image} height={180} />
-				</a>
+		<Card withBorder radius="md" className={cx(classes.card)} >
+			<Link to={`/book/${id as string}`}>	<Card.Section mt={-20}>
+				<Box sx={{ height: 100, width: '100%', background: '#0B7285', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+					<Text className={classes.title} fw={700} >
+						{title}
+					</Text>
+				</Box>
 			</Card.Section>
+			</Link>
 
 			<Badge className={classes.rating} variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
-				{rating}
+				{genre}
 			</Badge>
 
-			<Text className={classes.title} fw={500} component="a" {...linkProps}>
-				{title}
-			</Text>
 
-			<Text fz="sm" color="dimmed" lineClamp={2}>
+
+			{/* <Text fz="sm" color="dimmed" lineClamp={2}>
 				{description}
-			</Text>
+			</Text> */}
 
-			<Group position="apart" className={classes.footer}>
+			<Group className={classes.footer}>
 				<Center>
 					<Avatar size={24} radius="xl" color='cyan' mr="xs" >
-						{author.name.split(' ')[0].slice(0, 1) + author.name?.split(' ')[1]?.slice(0, 1)}
+						{author.split(' ')[0].slice(0, 1) + author?.split(' ')[1]?.slice(0, 1)}
 					</Avatar>
 					<Text fz="sm" inline>
-						{author.name}
+						{author}
 					</Text>
-				</Center>
 
-				<Group spacing={8} mr={0}>
+				</Center>
+				<Text fz="sm" inline>
+					Publication: {publication}
+				</Text>
+
+				{/* <Group spacing={8} mr={0}>
 					<ActionIcon className={classes.action}>
 						<IconHeart size="1rem" color={theme.colors.red[6]} />
 					</ActionIcon>
 					<ActionIcon className={classes.action}>
 						<IconBookmark size="1rem" color={theme.colors.yellow[7]} />
 					</ActionIcon>
-					<ActionIcon className={classes.action}>
-						<IconShare size="1rem" />
-					</ActionIcon>
-				</Group>
+
+				</Group> */}
 			</Group>
-		</Card>
+		</Card >
 	);
 }
