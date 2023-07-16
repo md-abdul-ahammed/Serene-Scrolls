@@ -17,8 +17,9 @@ import {
 	Button,
 	Tooltip,
 	Dialog,
+	Modal,
 } from '@mantine/core';
-import { IconBookFilled, IconBookmark, IconHeart, IconHeartFilled, IconTrashX } from '@tabler/icons-react';
+import { IconBookFilled, IconBookmark, IconEdit, IconHeart, IconHeartFilled, IconTrashX } from '@tabler/icons-react';
 import Review from '../components/BookDetails/Review';
 import IReview from '../types/review';
 import { hasLength, useForm } from '@mantine/form';
@@ -32,6 +33,7 @@ import { useAddReadingListMutation, useAddWishListMutation, useDeleteReadingMuta
 import { useEffect, useState } from 'react';
 import { IconTrashFilled } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
+import EditBook from '../components/BookDetails/EditBook';
 
 
 
@@ -42,6 +44,7 @@ const useStyles = createStyles(() => ({
 const BookDetails = () => {
 	const { id: bookId } = useParams();
 	const [opened, { toggle, close }] = useDisclosure(false);
+	const [openedEdit, { open: openEdit, close: closeEdit }] = useDisclosure(false);
 	const { data } = useSingleBookQuery(bookId as string);
 	const [isWish, setIsWish] = useState<any>(null);
 	const [isReading, setIsReading] = useState<any>(null);
@@ -54,6 +57,8 @@ const BookDetails = () => {
 	const [deleteReading] = useDeleteReadingMutation();
 	const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
 	const navigate = useNavigate();
+
+
 
 	const handleDeleteBook = async (): Promise<void> => {
 		const res: any = await deleteBook(bookId as string);
@@ -187,15 +192,25 @@ const BookDetails = () => {
 					</ActionIcon>
 
 					{
-						(user?.id === addedBy?.id) && <ActionIcon onClick={async (): Promise<void> => {
-							toggle();
+						(user?.id === addedBy?.id) && <><ActionIcon onClick={async (): Promise<void> => {
+							openEdit();
 							return Promise.resolve(); // Return a resolved Promise with void
 						}}>
-							<Tooltip label={isReading ? "Remove from currently reading" : "Add to currently reading"}>
-
-								<IconTrashFilled size="1rem" color={theme.colors.red[6]} />
+							<Tooltip label={"Edit Book"}>
+								<IconEdit size="1rem" color={theme.colors.blue[6]} />
 							</Tooltip>
 						</ActionIcon>
+
+							<ActionIcon onClick={async (): Promise<void> => {
+								toggle();
+								return Promise.resolve(); // Return a resolved Promise with void
+							}}>
+								<Tooltip label={isReading ? "Remove from currently reading" : "Add to currently reading"}>
+
+									<IconTrashFilled size="1rem" color={theme.colors.red[6]} />
+								</Tooltip>
+							</ActionIcon>
+						</>
 					}
 
 				</Group>
@@ -272,6 +287,11 @@ const BookDetails = () => {
 					<Button onClick={handleDeleteBook} color='red' disabled={isDeleting}>{isDeleting ? 'Deleting...' : 'DELETE'}</Button>
 				</Group>
 			</Dialog>
+
+			{/* Edit modal */}
+			<Modal size="calc(100vw - 60vw)" opened={openedEdit} onClose={closeEdit} title="" centered>
+				<EditBook book={data?.data as BookType} close={closeEdit} />
+			</Modal>
 		</Container>
 	);
 };
