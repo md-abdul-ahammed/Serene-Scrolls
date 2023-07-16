@@ -16,19 +16,22 @@ import {
 	Divider,
 	Button,
 	Tooltip,
+	Dialog,
 } from '@mantine/core';
-import { IconBookFilled, IconBookmark, IconHeart, IconHeartFilled } from '@tabler/icons-react';
+import { IconBookFilled, IconBookmark, IconHeart, IconHeartFilled, IconTrashX } from '@tabler/icons-react';
 import Review from '../components/BookDetails/Review';
 import IReview from '../types/review';
 import { hasLength, useForm } from '@mantine/form';
-import { useAddReviewMutation, useGetReviewsQuery, useSingleBookQuery } from '../redux/features/books/bookApi';
-import { useParams } from 'react-router-dom';
+import { useAddReviewMutation, useDeleteBookMutation, useGetReviewsQuery, useSingleBookQuery } from '../redux/features/books/bookApi';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BookType } from '../types/book';
 import { useAppSelector } from '../redux/hook';
 import { notifications } from '@mantine/notifications';
 import { IconX } from '@tabler/icons-react';
 import { useAddReadingListMutation, useAddWishListMutation, useDeleteReadingMutation, useDeleteWishlistMutation, useGetReadingListQuery, useGetWishlistQuery } from '../redux/features/personalList/listApi';
 import { useEffect, useState } from 'react';
+import { IconTrashFilled } from '@tabler/icons-react';
+import { useDisclosure } from '@mantine/hooks';
 
 
 
@@ -38,10 +41,10 @@ const useStyles = createStyles(() => ({
 
 const BookDetails = () => {
 	const { id: bookId } = useParams();
+	const [opened, { toggle, close }] = useDisclosure(false);
 	const { data } = useSingleBookQuery(bookId as string);
 	const [isWish, setIsWish] = useState<any>(null);
 	const [isReading, setIsReading] = useState<any>(null);
-
 	const { data: allreviews } = useGetReviewsQuery(bookId as string);
 	const { user } = useAppSelector(state => state.auth)
 	const [addReview, { isLoading }] = useAddReviewMutation();
@@ -49,21 +52,44 @@ const BookDetails = () => {
 	const [addReadingList] = useAddReadingListMutation();
 	const [deleteWishlist] = useDeleteWishlistMutation();
 	const [deleteReading] = useDeleteReadingMutation();
+	const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
+	const navigate = useNavigate();
+
+	const handleDeleteBook = async (): Promise<void> => {
+		const res: any = await deleteBook(bookId as string);
+		console.log('res: ', res);
+		notifications.show({
+			id: 'success-login',
+			withCloseButton: true,
+			onClose: () => console.log('unmounted'),
+			onOpen: () => console.log('mounted'),
+			autoClose: 3000,
+			title: res?.data?.statusCode === 200 ? "Book Deleted" : "Operation Failed",
+			message: res?.data?.statusCode === 200 ? res.data?.message : res?.error?.data.message,
+			color: res?.data?.statusCode === 200 ? 'cyan' : 'red',
+			icon: <IconX />,
+			className: 'my-notification-class',
+			style: { backgroundColor: '' },
+			sx: { backgroundColor: 'white' },
+			loading: false,
+		});
+		close();// closing dialog
+		res?.data?.statusCode === 200 && navigate('/');
+		return Promise.resolve();
+	}
 
 	const { data: allWishlist } = useGetWishlistQuery({});
 	const { data: allReadinglist } = useGetReadingListQuery({});
 
 	useEffect(() => {
 
-		const isWishListed = allWishlist?.data.find(item => item.bookId.id === bookId)
-		const isReadingListed = allReadinglist?.data.find(item => item.bookId.id === bookId)
+		const isWishListed = allWishlist?.data.find((item: any) => item.bookId.id === bookId)
+		const isReadingListed = allReadinglist?.data.find((item: any) => item.bookId.id === bookId)
 
 		if (isWishListed) {
-			console.log('isWishListed: ', isWishListed);
 			setIsWish(isWishListed)
 		}
 		if (isReadingListed) {
-			console.log('isReadingListed: ', isReadingListed);
 			setIsReading(isReadingListed)
 		}
 	}, [allWishlist, allReadinglist])
@@ -160,11 +186,23 @@ const BookDetails = () => {
 						</Tooltip>
 					</ActionIcon>
 
+					{
+						(user?.id === addedBy?.id) && <ActionIcon onClick={async (): Promise<void> => {
+							toggle();
+							return Promise.resolve(); // Return a resolved Promise with void
+						}}>
+							<Tooltip label={isReading ? "Remove from currently reading" : "Add to currently reading"}>
+
+								<IconTrashFilled size="1rem" color={theme.colors.red[6]} />
+							</Tooltip>
+						</ActionIcon>
+					}
+
 				</Group>
 			</Group>
 
 			<Container size={'xs'} mb={20}>
-				<form onSubmit={form.onSubmit(async (values): void => {
+				<form onSubmit={form.onSubmit(async (values): Promise<void> => {
 					const formData = {
 
 						review: values.review,
@@ -195,7 +233,7 @@ const BookDetails = () => {
 
 
 					res?.data?.statusCode === 200 && form.reset();
-					console.log('formData: ', formData);
+					return Promise.resolve();
 
 
 				})}>
@@ -222,23 +260,22 @@ const BookDetails = () => {
 
 				</form>
 			</Container>
+
+			{/* //confirm message for delete book: */}
+
+			<Dialog position={{ top: 20, right: 20 }} opened={opened} withCloseButton onClose={close} size="lg" radius="md">
+				<Text size="sm" mb="xs" weight={500}>
+					Are you sure to delete the book?
+				</Text>
+
+				<Group align="flex-end">
+					<Button onClick={handleDeleteBook} color='red' disabled={isDeleting}>{isDeleting ? 'Deleting...' : 'DELETE'}</Button>
+				</Group>
+			</Dialog>
 		</Container>
 	);
 };
 
 export default BookDetails;
 
-const demo = {
-	image:
-		"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrBstXAmkzVK-Ze6Lg_gZMVl57-7Oyvpw6QA&usqp=CAU",
-	link: "id",
-	title: "Resident Evil Village review",
-	rating: "outstanding",
-	description:
-		"Resident Evil Village is a direct sequel to 2017’s Resident Evil 7, but takes a very different direction to its predecessor, namely the fact that this time round instead of fighting against various mutated zombies, you’re now dealing with more occult enemies like werewolves and vampires. Resident Evil Village is a direct sequel to 2017’s Resident Evil 7, but takes a very different direction to its predecessor, namely the fact that this time round instead of fighting against various mutated zombies, you’re now dealing with more occult enemies like werewolves and vampires.",
-	author: {
-		name: "Bill Wormeater",
-		image:
-			"https://images.unsplash.com/photo-1593229874334-90d965f27c42?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80",
-	},
-}
+
