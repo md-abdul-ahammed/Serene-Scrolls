@@ -10,14 +10,18 @@ import {
 } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
 import { Link } from "react-router-dom";
+import { useRegisterMutation } from '../redux/features/auth/authApi';
+import { notifications } from '@mantine/notifications';
+import { IconX } from '@tabler/icons-react';
 
 export default function SignUp() {
+	const [register, { isLoading }] = useRegisterMutation();
+
 	const form = useForm({
 		initialValues: {
 			email: '',
 			password: '',
 			fullName: '',
-			remember: false
 		},
 		validate: {
 			email: isEmail('Invalid email'),
@@ -40,8 +44,18 @@ export default function SignUp() {
 						Login
 					</Anchor></Link>
 			</Text>
-			<form onSubmit={form.onSubmit((values) => {
-				console.log('values: ', values);
+			<form onSubmit={form.onSubmit(async (values): void => {
+				const res = await register(values);
+				notifications.show({
+					id: 'success-login',
+					withCloseButton: true,
+					title: res?.data?.statusCode === 200 ? "Sign up Success" : "Sign up Failure, Try again",
+					message: res?.data?.statusCode === 200 ? res.data?.message : res?.error?.data.message,
+					color: res?.data?.statusCode === 200 ? 'cyan' : 'red',
+					icon: <IconX />,
+					className: 'my-notification-class',
+					loading: false,
+				});
 
 			})}>
 				<Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -51,7 +65,7 @@ export default function SignUp() {
 
 					<PasswordInput label="Password" placeholder="Your password" required mt="md"  {...form.getInputProps('password')} />
 
-					<Button fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='cyan' type='submit' >
+					<Button disabled={isLoading} fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='cyan' type='submit' >
 						Submit
 					</Button>
 				</Paper>

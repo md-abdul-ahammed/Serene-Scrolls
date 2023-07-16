@@ -11,14 +11,20 @@ import {
 
 } from '@mantine/core';
 import { hasLength, isEmail, useForm } from '@mantine/form';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from '../redux/features/auth/authApi';
+import { ILoginBody } from '../types/user';
+import { IconX } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 
 export default function Login() {
+	const navigate = useNavigate();
+	const [login, { isLoading }] = useLoginMutation();
+
 	const form = useForm({
 		initialValues: {
 			email: '',
-			password: '',
-			remember: false
+			password: ''
 		},
 		validate: {
 			email: isEmail('Invalid email'),
@@ -44,9 +50,24 @@ export default function Login() {
 			</Text>
 
 			<Paper withBorder shadow="md" p={30} mt={30} radius="md">
-				<form onSubmit={form.onSubmit((values) => {
-					console.log('values: ', values);
-
+				<form onSubmit={form.onSubmit(async (values: ILoginBody): void => {
+					const res = await login(values);
+					notifications.show({
+						id: 'success-login',
+						withCloseButton: true,
+						onClose: () => console.log('unmounted'),
+						onOpen: () => console.log('mounted'),
+						autoClose: 3000,
+						title: res?.data?.statusCode === 200 ? "Login Success" : "Login Failure",
+						message: res?.data?.statusCode === 200 ? res.data?.message : res?.error?.data.message,
+						color: res?.data?.statusCode === 200 ? 'cyan' : 'red',
+						icon: <IconX />,
+						className: 'my-notification-class',
+						style: { backgroundColor: '' },
+						sx: { backgroundColor: 'white' },
+						loading: false,
+					});
+					res?.data?.statusCode === 200 && navigate('/')
 				})}>
 
 					<TextInput label="Email" placeholder="mail@qridwan.com" required {...form.getInputProps('email')} />
@@ -56,7 +77,7 @@ export default function Login() {
 							Forgot password?
 						</Anchor>
 					</Group>
-					<Button fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='cyan' type='submit' >
+					<Button disabled={isLoading} fullWidth gradient={{ from: 'indigo', to: 'cyan' }} mt="xl" color='cyan' type='submit' >
 						Sign in
 					</Button>
 				</form>
