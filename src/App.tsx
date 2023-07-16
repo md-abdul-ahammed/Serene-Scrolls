@@ -1,12 +1,17 @@
 
+import { RouterProvider } from 'react-router-dom'
 import './App.css'
-import Home from './pages/Home'
+import routes from './routes/routes'
+import useAuthCheck from './hooks/useAuthCheck';
+import BoiLoader from './atoms/Loader';
 
 function App() {
-
+	const authChecked = useAuthCheck();
 	return (
 		<>
-			<Home />
+			{!authChecked ? (
+				<BoiLoader />
+			) : <RouterProvider router={routes} />}
 		</>
 	)
 }
