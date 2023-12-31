@@ -1,13 +1,5 @@
 # boipoka-fe
 
-#### [Live Link](https://goodreaders.vercel.app/)
-
-    	FRONT END: https://goodreaders.vercel.app/
-    	GITHUB BE: https://github.com/qridwan/goodreaders-be
-    	GITHUB FE: https://github.com/qridwan/goodreaders-fe
-
-#### API URL : https://goodreaders-api.vercel.app/api/v1
-
 - [API Documentation](https://documenter.getpostman.com/view/15074292/2s946fdsdf)
 
 # Book Catalog System - README
@@ -29,11 +21,13 @@ This is a book catalog system project built using React and Redux Toolkit for st
 ## Features
 
 - **Landing Page:**
+
   - Header with navigation links: "All Books", "Sign In", and "Sign Up"
   - Top 10 recently added books list
   - Footer
 
 - **Login and Registration Pages:**
+
   - User authentication with Firebase or custom authentication
   - New user registration with a unique email and password
   - Secure user login using credentials
@@ -41,6 +35,7 @@ This is a book catalog system project built using React and Redux Toolkit for st
   - Secure logout functionality
 
 - **All Books Page:**
+
   - Fetching and displaying a list of books from an API using RTK Query
   - Displaying key information for each book: Title, Author, Genre, Publication Date
   - Efficient search bar for searching books based on title, author, or genre
@@ -49,16 +44,19 @@ This is a book catalog system project built using React and Redux Toolkit for st
   - "Add New Book" navigation menu for authenticated users
 
 - **Add New Book Page:**
+
   - Authenticated users can add a new book using a form
   - Notification for success or failure of the operation
 
 - **Book Details Page:**
+
   - Displaying detailed view of a book: Title, Author, Genre, Publication Date, Reviews
   - Buttons for Edit and Delete actions
   - Confirmation dialogue for book deletion
   - Authenticated users can leave reviews for books
 
 - **Edit Books Page:**
+
   - Authenticated users can edit a book using a form
   - Form pre-filled with current data when editing
   - Notification for success or failure of the operation
@@ -79,5 +77,3 @@ To get started with the project, follow these steps:
 5. Start the frontend development server: `yarn dev`
 
 ## Project Structure
-
-
