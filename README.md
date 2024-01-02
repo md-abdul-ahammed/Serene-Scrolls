@@ -1,6 +1,14 @@
-# boipoka-fe
+# serene-scrolls-fe
 
-- [API Documentation](https://documenter.getpostman.com/view/15074292/2s946fdsdf)
+#### [Live Link](https://serene-scrolls.vercel.app/)
+
+    	FRONT END: https://serene-scrolls.vercel.app/
+    	GITHUB BE: https://github.com/md-abdul-ahammed/Serene-Scrolls-BE
+    	GITHUB FE: https://github.com/md-abdul-ahammed/Serene-Scrolls
+
+#### API URL : https://goodreaders-api.vercel.app/api/v1
+
+- [API Documentation](https://serene-scrolls-backend.vercel.app/api/v1)
 
 # Book Catalog System - README
 

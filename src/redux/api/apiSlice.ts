@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userLoggedOut } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://goodreaders-api.vercel.app/api/v1",
+  baseUrl: "https://serene-scrolls-backend.vercel.app/api/v1",
   prepareHeaders: (headers, { getState }: any) => {
     const token = getState()?.auth?.accessToken;
     if (token) {
