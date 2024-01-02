@@ -6,9 +6,9 @@
     	GITHUB BE: https://github.com/md-abdul-ahammed/Serene-Scrolls-BE
     	GITHUB FE: https://github.com/md-abdul-ahammed/Serene-Scrolls
 
-#### API URL : https://goodreaders-api.vercel.app/api/v1
+#### API URL : https://serene-scrolls-backend.vercel.app/api/v1
 
-- [API Documentation](https://serene-scrolls-backend.vercel.app/api/v1)
+- [API Documentation](https://documenter.getpostman.com/view/19079762/2s9YsFDDpW)
 
 # Book Catalog System - README
 
